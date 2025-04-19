@@ -41,7 +41,7 @@ export default function Nav() {
               className={`item ${activeIndex === index ? "active" : ""}`}
               onClick={() => handleItemClick(index)}
             >
-              <Link href={menuLink[index]} className="link">
+              <Link to={menuLink[index]} className="link">
                 <img src={menuIcon[index]} alt="" />
                 {item}
               </Link>
