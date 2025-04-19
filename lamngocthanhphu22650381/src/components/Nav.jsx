@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/Nav.css";
-
+import { Link } from "react-router-dom";
 export default function Nav() {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const handleItemClick = (index) => {
@@ -41,10 +41,10 @@ export default function Nav() {
               className={`item ${activeIndex === index ? "active" : ""}`}
               onClick={() => handleItemClick(index)}
             >
-              <a href="/" className="link">
+              <Link href={menuLink[index]} className="link">
                 <img src={menuIcon[index]} alt="" />
                 {item}
-              </a>
+              </Link>
             </li>
           );
         })}
