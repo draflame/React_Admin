@@ -1,47 +1,78 @@
-import React, { useState, useEffect } from "react"; // Import useState and useEffect
+import React, { useState, useEffect } from "react";
+import DataTable from "react-data-table-component";
 import "../css/DetailedReport.css";
-import { CiImport } from "react-icons/ci";
-import { CiExport } from "react-icons/ci";
-import { GoPencil } from "react-icons/go";
-import { PiLessThan } from "react-icons/pi";
-import { PiGreaterThan } from "react-icons/pi";
 import { FaRegUserCircle } from "react-icons/fa";
-
+import { CiImport, CiExport } from "react-icons/ci";
+import { GoPencil } from "react-icons/go";
 const DetailedReport = () => {
-  // State for users
   const [users, setUsers] = useState([]);
 
-  // Fetch data when component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(
-          "https://67cd35e2dd7651e464eda65e.mockapi.io/users"
-        );
-        const data = await res.json();
-        setUsers(data); // Set users state with the fetched data
+        const res = await fetch("http://localhost:3003/customer");
+        const json = await res.json();
+        setUsers(json); // Dữ liệu của bạn nằm trong mảng `users`
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Fetch error:", error);
       }
     };
 
     fetchData();
-  }, []); // Empty dependency array means this runs only once when the component mounts
+  }, []);
+  console.log(users);
+
+  const columns = [
+    {
+      name: "Customer Name",
+      selector: (row) => row.customerName,
+      sortable: true,
+    },
+    {
+      name: "Company",
+      selector: (row) => row.company,
+      sortable: true,
+    },
+    {
+      name: "Order Value",
+      selector: (row) => `$${row.orderValue}`,
+      sortable: true,
+    },
+    {
+      name: "Order Date",
+      selector: (row) => row.orderDate,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      cell: (row) => getStatusBadge(row.status),
+      center: true,
+    },
+    {
+      name: "",
+      cell: (row) => (
+        <button className="button-action">
+          <GoPencil className="icon-action" />
+        </button>
+      ),
+      center: true,
+    },
+  ];
 
   const getStatusBadge = (status) => {
-    let className = "status-badge ";
+    let className = "badge ";
     switch (status) {
       case "New":
-        className += "bg-blue-100 text-blue-600";
+        className += "badge-new";
         break;
       case "In-progress":
-        className += "bg-yellow-100 text-yellow-700";
+        className += "badge-inprogress";
         break;
       case "Completed":
-        className += "bg-green-100 text-green-700";
+        className += "badge-completed";
         break;
       default:
-        className += "bg-gray-100 text-gray-600";
+        className += "badge-default";
     }
     return <span className={className}>{status}</span>;
   };
@@ -65,84 +96,14 @@ const DetailedReport = () => {
           </button>
         </div>
       </div>
-      <div className="main-detailed-report">
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <input type="checkbox" name="" id="" />
-              </th>
-              <th>CUSTOMER NAME</th>
-              <th>COMPANY</th>
-              <th>ORDER VALUE</th>
-              <th>ORDER DATE</th>
-              <th style={{ textAlign: "center" }}>STATUS</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => (
-              <tr key={index}>
-                <td>
-                  <input type="checkbox" name="" id="" />
-                </td>
-                <td>
-                  <img
-                    src="../../img/Avatar 313.png"
-                    alt=""
-                    style={{
-                      borderRadius: "50%",
-                      width: "30px",
-                      height: "30px",
-                      marginRight: "10px",
-                    }}
-                  />
-                  {user.customerName}
-                </td>
-                <td>{user.company}</td>
-                <td>{user.orderValue}</td>
-                <td>{user.orderDate}</td>
-                <td style={{ textAlign: "center" }}>
-                  {getStatusBadge(user.status)}
-                </td>
-                <td>
-                  <button>
-                    <GoPencil />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="footer-detailed-report">
-        <p>63 results</p>
-        <div className="number-page-navigation">
-          <PiLessThan />
-          <button>
-            <span>1</span>
-          </button>
-          <button>
-            <span>2</span>
-          </button>
-          <button>
-            <span>3</span>
-          </button>
-          <button>
-            <span>4</span>
-          </button>
-          <button>
-            <span>...</span>
-          </button>
-          <button>
-            <span>10</span>
-          </button>
-          <button>
-            <span>11</span>
-          </button>
-          <PiGreaterThan />
-        </div>
-      </div>
+
+      <DataTable
+        columns={columns}
+        data={users}
+        pagination
+        highlightOnHover
+        selectableRows
+      />
     </div>
   );
 };
