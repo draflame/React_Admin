@@ -16,6 +16,31 @@ const DetailedReport = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const handleSaveUser = async (updatedUser) => {
+    try {
+      // Cập nhật dữ liệu người dùng lên server
+      const res = await fetch(
+        `http://localhost:3003/customer/${updatedUser.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedUser),
+        }
+      );
+
+      if (res.ok) {
+        const updatedUsers = users.map((user) =>
+          user.id === updatedUser.id ? updatedUser : user
+        );
+        setUsers(updatedUsers); // Cập nhật lại danh sách người dùng trong state
+        setIsModalOpen(false); // Đóng modal sau khi lưu thành công
+      }
+    } catch (error) {
+      console.error("Error saving user:", error);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,7 +54,6 @@ const DetailedReport = () => {
 
     fetchData();
   }, []);
-  console.log(users);
 
   const columns = [
     {
@@ -118,6 +142,7 @@ const DetailedReport = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         user={editingUser}
+        onSave={handleSaveUser}
       />
     </div>
   );
