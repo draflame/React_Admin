@@ -1,0 +1,20 @@
+{
+    "turnover": [
+      {
+        "id": 1,
+        "customerName": "John Doe",
+        "amount": 500
+      },
+      {
+        "id": 2,
+        "customerName": "Jane Smith",
+        "amount": 1200
+      },
+      {
+        "id": 3,
+        "customerName": "Robert Brown",
+        "amount": 300
+      }
+    ]
+  }
+  

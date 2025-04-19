@@ -1,0 +1,29 @@
+{
+    "overview": [
+      {
+        "id": 1,
+        "title": "Turnover",
+        "value": "$92,405",
+        "percentage": "5.39%",
+        "bgColor": "#fff0f5",
+        "image": "/img/Button 1509.png"
+      },
+      {
+        "id": 2,
+        "title": "Profit",
+        "value": "32,218",
+        "percentage": "5.39%",
+        "bgColor": "#eff6ff",
+        "image": "/img/Button 1529.png"
+      },
+      {
+        "id": 3,
+        "title": "New Customer",
+        "value": "298",
+        "percentage": "5.84%",
+        "bgColor": "#f0f7fd",
+        "image": "/img/Button 1530.png"
+      }
+    ]
+}
+  

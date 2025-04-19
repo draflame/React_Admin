@@ -3,7 +3,11 @@ import Overview from "./OverView";
 import DetailedReport from "./DetailedReport";
 
 const Main = () => {
-  return <div className="container-main"></div>;
+  return (
+    <div className="container-main">
+      <Overview />
+    </div>
+  );
 };
 
 export default Main;

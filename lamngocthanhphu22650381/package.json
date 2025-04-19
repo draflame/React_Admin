@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "concurrently \"json-server --watch src/database/turnover.json --port 3001\" \"json-server --watch src/database/profit.json --port 3002\" \"json-server --watch src/database/customer.json --port 3003\""
   },
   "dependencies": {
     "lamngocthanhphu22650381": "file:",
