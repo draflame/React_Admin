@@ -4,9 +4,18 @@ import "../css/DetailedReport.css";
 import { FaRegUserCircle } from "react-icons/fa";
 import { CiImport, CiExport } from "react-icons/ci";
 import { GoPencil } from "react-icons/go";
+import EditModal from "./EditModel";
 const DetailedReport = () => {
   const [users, setUsers] = useState([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const handleEditUser = (user) => {
+    setEditingUser(user);
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,6 +50,7 @@ const DetailedReport = () => {
     {
       name: "Order Date",
       selector: (row) => row.orderDate,
+      sortable: true,
     },
     {
       name: "Status",
@@ -51,7 +61,7 @@ const DetailedReport = () => {
     {
       name: "",
       cell: (row) => (
-        <button className="button-action">
+        <button className="button-action" onClick={() => handleEditUser(row)}>
           <GoPencil className="icon-action" />
         </button>
       ),
@@ -103,6 +113,11 @@ const DetailedReport = () => {
         pagination
         highlightOnHover
         selectableRows
+      />
+      <EditModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        user={editingUser}
       />
     </div>
   );
