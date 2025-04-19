@@ -5,10 +5,12 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { CiImport, CiExport } from "react-icons/ci";
 import { GoPencil } from "react-icons/go";
 import EditModal from "./EditModel";
+import AddModal from "./AddModel";
 const DetailedReport = () => {
   const [users, setUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const handleEditUser = (user) => {
     setEditingUser(user);
     setIsModalOpen(true);
@@ -40,6 +42,12 @@ const DetailedReport = () => {
     } catch (error) {
       console.error("Error saving user:", error);
     }
+  };
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false); // Đóng AddModal
+  };
+  const handleAddUser = (newUser) => {
+    setUsers((prevUsers) => [...prevUsers, newUser]); // Thêm người dùng mới vào danh sách
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -119,7 +127,10 @@ const DetailedReport = () => {
           Detailed Report
         </div>
         <div className="button-ex-im">
-          <button className="button-import">
+          <button
+            className="button-import"
+            onClick={() => setIsAddModalOpen(true)}
+          >
             <FaRegUserCircle /> Add user
           </button>
           <button className="button-import">
@@ -143,6 +154,11 @@ const DetailedReport = () => {
         onClose={handleCloseModal}
         user={editingUser}
         onSave={handleSaveUser}
+      />
+      <AddModal
+        isOpen={isAddModalOpen}
+        onClose={handleCloseAddModal}
+        onAdd={handleAddUser} // Truyền hàm thêm người dùng vào AddModal
       />
     </div>
   );
